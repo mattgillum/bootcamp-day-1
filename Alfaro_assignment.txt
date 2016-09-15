@@ -93,3 +93,27 @@ for (i in 1:length(bankAccounts)) {
 + }
 > bankAccounts
 [1] 41.55520 75.00653  6.06370
+
+
+7. 
+years<-(2015:2020)
+bankAccounts <- c(10, 9.2, 5.6)
+
+for (ii in 1:length(years)) {
+  
+  for (j in 1:length(bankAccounts)) { # for each bank account
+    bankAccounts[j] <- bankAccounts[j]-house[j]-food[j]-fun[j]+income[j]
+    
+    if(years[ii] %% 2 == 1) { # if it's an even year, do the thing
+#    bankAccounts[c(1,3)] <- bankAccounts[c(1,3)]+5
+      if (j == 1 | j == 3){
+        bankAccounts[j] <- bankAccounts[j] + 5
+        
+      }
+    }
+    bankAccounts[j]<- bankAccounts[j]+bankAccounts[j]*interestRate
+  }
+}
+bankAccounts
+
+67.36527 90.31137 24.64272
