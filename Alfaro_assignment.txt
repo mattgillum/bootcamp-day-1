@@ -117,3 +117,19 @@ for (ii in 1:length(years)) {
 bankAccounts
 
 67.36527 90.31137 24.64272
+
+
+7. 
+
+
+8.
+
+
+
+9.
+
+if (x < -1){
+   print("small")
+}  else if ( x > 1) {
+   print("big")
+}  else print("medium")
