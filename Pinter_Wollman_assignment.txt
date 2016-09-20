@@ -1,0 +1,109 @@
+
+1 and 2
+data_day0<-ChickWeight[ChickWeight$Time==0,]
+day_0_Anova<-aov(data_day0$weight~data_day0$Diet)
+summary(day_0_Anova)
+
+
+data_day21<-ChickWeight[ChickWeight$Time==21,]
+day_21_Anova<-aov(data_day21$weight~data_day21$Diet)
+summary(day_21_Anova)
+
+
+TukeyHSD(day_0_Anova)
+
+$`data_day0$Diet`
+    diff       lwr       upr     p adj
+2-1 -0.7 -1.864187 0.4641869 0.3872164
+3-1 -0.6 -1.764187 0.5641869 0.5219101
+4-1 -0.4 -1.564187 0.7641869 0.7965223
+3-2  0.1 -1.244287 1.4442873 0.9971988
+4-2  0.3 -1.044287 1.6442873 0.9331261
+4-3  0.2 -1.144287 1.5442873 0.9786117
+
+not significantly different at day 0.
+
+
+TukeyHSD(day_21_Anova)
+
+$`data_day21$Diet`
+         diff            lwr             upr              p adj
+2-1  36.95000  -32.11064 106.01064 0.4868095
+3-1  92.55000   23.48936 161.61064 0.0046959
+4-1  60.80556  -10.57710 132.18821 0.1192661
+3-2  55.60000  -21.01591 132.21591 0.2263918
+4-2  23.85556  -54.85981 102.57092 0.8486781
+4-3 -31.74444 -110.45981  46.97092 0.7036249
+
+
+only pairs 3-1 are significantly different.
+
+
+boxplot(weight~Diet,data=data_day0, xlab="Diet", ylab="Weight",
+        col=c("red", "black", "darkred", "purple"),
+        main="Chicken Weights Between Diets at Day 0"
+        )
+
+
+boxplot(weight~Diet,data=data_day21, xlab="Diet", ylab="Weight",
+        col=c("red", "black", "darkred", "purple"), 
+        main="Chicken Weights Between Diets at Day 21"
+)
+
+
+3.
+
+ChickWeight<- within(ChickWeight, {
+  Chick <-factor(Chick)
+  Diet <- factor(Diet)
+  Time <- factor(Time)
+})
+              
+summary(aov(weight ~ Diet*Time + Error(Chick), data=ChickWeight))
+aov(weight ~ Diet*Time + Error(Chick), data=ChickWeight)
+
+Error: Chick
+          Df Sum Sq Mean Sq F value   Pr(>F)    
+Diet       3 155863   51954   6.795 0.000799 ***
+Time       5  60748   12150   1.589 0.184743    
+Residuals 41 313495    7646                     
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Error: Within
+           Df  Sum Sq Mean Sq F value  Pr(>F)    
+Time       11 1985929  180539 283.573 < 2e-16 ***
+Diet:Time  33   90379    2739   4.302 3.5e-13 ***
+Residuals 484  308142     637                    
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+The results are significant.
+
+
+4. 
+
+ChickWeight_diet1<-ChickWeight[ChickWeight$Diet==1,]
+ChickWeight_diet2<-ChickWeight[ChickWeight$Diet==2,]
+ChickWeight_diet3<-ChickWeight[ChickWeight$Diet==3,]
+ChickWeight_diet4<-ChickWeight[ChickWeight$Diet==4,]
+
+plot(ChickWeight_diet1$Time,ChickWeight_diet1$weight,
+     col=1, xlab="Time", ylab="Weight", main = "Weight Over Time, by Diet"
+)
+points(ChickWeight_diet2$Time, ChickWeight_diet2$weight, col=2)
+points(ChickWeight_diet3$Time, ChickWeight_diet3$weight, col=3)
+points(ChickWeight_diet4$Time, ChickWeight_diet4$weight, col=4)
+abline(lm(weight~Time,data=ChickWeight_diet1),col=1)
+abline(lm(weight~Time,data=ChickWeight_diet2),col=2)
+abline(lm(weight~Time,data=ChickWeight_diet3),col=3)
+abline(lm(weight~Time,data=ChickWeight_diet4),col=4)
+legend(6,300,c("1","2","3","4"), lty=c(1,1,1,1), lwd=c(2,2,2,2),
+       col=c(1,2,3,4))
+
+
+
+
+5. 
+
+
