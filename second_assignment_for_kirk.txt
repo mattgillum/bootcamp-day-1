@@ -1,0 +1,76 @@
+SNPdata = read.table("hapmap_CEU_r23a_chr2_ld-2.txt")
+
+compute_chisquare=function(x){
+  freq=sum(x,na.rm=TRUE)/(2.0*sum(!is.na(x)))
+  cnt0=sum(x==0,na.rm=TRUE)
+  cnt1=sum(x==1,na.rm=TRUE)
+  cnt2=sum(x==2,na.rm=TRUE)
+  obscnts=c(cnt0,cnt1,cnt2)
+  n=sum(obscnts)
+  expcnts=c((1-freq)^2,2*freq*(1-freq),freq^2)*n
+  chisq=sum((obscnts-expcnts)^2/expcnts)
+  return(chisq)
+}
+
+snps=as.matrix(SNPdata)
+
+chisqs=apply(snps,1,compute_chisquare)
+
+pvals=pchisq(chisqs,1,lower.tail=FALSE)
+
+num_pval<-length(pvals)
+
+ signifthres<-0.05
+    sum(pvals<signifthres) 
+    sum(pvals<signifthres)/num_pval 
+.0451
+
+    
+    signifthres<-0.01
+    sum(pvals<signifthres) 
+    sum(pvals<signifthres)/num_pval
+
+.0102
+
+    
+    signifthres<-0.001
+    sum(pvals<signifthres) 
+    sum(pvals<signifthres)/num_pval
+.0012
+
+
+exp_pvals<-rep(0,num_pval)
+    for (i in 1:num_pval){
+      exp_pvals[i]<-i/num_pval
+    }
+      sort_pvals<-sort(pvals)
+      
+     log_sort_pvals<- -log10(sort_pvals)
+      log_exp_pvals<- -log10(exp_pvals)
+      
+
+  plot(log_sort_pvals,log_exp_pvals)
+      abline(a=0,b=1, col=2, lwd=2)
+
+#graph is attached in file called log_exp_pvals_graph.pdf
+
+
+
+
+
+ z=read.table("pheno.sim.2014-2.txt",header=TRUE)
+      head(z)
+      
+      pheno=z$glucose_mmolperL
+      sort(pheno)
+     
+      
+      plot(density(pheno))
+      xx<-quantile(pheno,.25)
+      yy<-quantile(pheno,.75)
+      abline(v=xx)
+      abline(v=yy)
+
+#graph is attached in file called pheno_density_graph.pdf
+      
+
