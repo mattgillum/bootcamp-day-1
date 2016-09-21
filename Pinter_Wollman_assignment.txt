@@ -107,3 +107,8 @@ legend(6,300,c("1","2","3","4"), lty=c(1,1,1,1), lwd=c(2,2,2,2),
 5. 
 
 
+plot(ChickWeight$Time,ChickWeight$weight)
+for (i in 1:50){
+  ChickWeight_Chick<-ChickWeight[ChickWeight$Chick==i,]
+  points(ChickWeight_Chick$Time,ChickWeight_Chick$weight, col = i)
+}
