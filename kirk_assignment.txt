@@ -18,5 +18,18 @@ for (i in 1:1000){
 
 
 
+bins<-seq(65,73,by=1)
+hist(mean_heights_100,breaks=bins)$breaks
+hist(mean_heights_1000,breaks=bins)$breaks
 
+counts_100<-hist(mean_heights_100,breaks=bins)$counts
+counts_1000<-hist(mean_heights_1000,breaks=bins)$counts
+        
+
+barplot(rbind(counts_100,counts_1000),col=c(5,10),beside=T,names.arg=
+        seq(65,72.5,by=1),xlab="Height",ylab="Count")
+
+legend(15,400,c(expression(paste(sigma,"n=100")),
+               expression(paste(sigma,"n=1000"))),col=c(5,10),
+               lwd=4)
 
